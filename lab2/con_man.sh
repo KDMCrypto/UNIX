@@ -29,22 +29,15 @@ while true; do
         done
     ')
 
-    # Проверяем, удалось ли создать файл
-    if [ -z "${NEXT_FILE_NAME}" ]; then
-        echo "Error: Could not create a file"
-        sleep 1
-        continue
-    fi
-
     FILE_COUNTER=$((FILE_COUNTER + 1))
 
-    echo "[CREATE]* Container: ${CONTAINER_ID} | File: ${NEXT_FILE_NAME} | Counter: ${FILE_COUNTER}"
+    echo "[CREATE] Container: ${CONTAINER_ID} | File: ${NEXT_FILE_NAME} | Counter: ${FILE_COUNTER}"
 
     sleep 1
 
     # Удаление созданного файла
     rm -f "${SHARED_DIR}/${NEXT_FILE_NAME}"
-    echo "[DELETE]* Container: ${CONTAINER_ID} | File: ${NEXT_FILE_NAME}"
+    echo "[DELETE] Container: ${CONTAINER_ID} | File: ${NEXT_FILE_NAME}"
 
     sleep 1
 done
