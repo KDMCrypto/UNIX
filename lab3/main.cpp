@@ -40,14 +40,17 @@ void get_files(vector<string>& paths, const string& path) {
         if (filesystem::is_directory(file)){
              get_files(paths, file.path().string());
         }
-        else {paths.push_back(file.path().string());}
+        // проверка на регулярность
+        else if (filesystem::is_regular_file(file)) {
+            paths.push_back(file.path().string());
+        }
     }
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
     vector<string> paths;
-    get_files(paths, "/home/dimon/lab_UNIX/lab3/test_dir_5");
+    get_files(paths, "test_dir_1");
     unordered_map<string, filesystem::path> hash_map; 
 
     for (const auto& file_path : paths) {
@@ -59,7 +62,11 @@ int main() {
             hash_map[hash] = filesystem::path(file_path);
         } else {
             filesystem::path original = iter->second;
-            cout << "Удаляем" << file_path << endl;
+            // доп проверка на существующую жесткую ссылку
+            if (filesystem::equivalent(original, file_path)) {
+                continue;
+            }
+            cout << "Удаляем: " << file_path << endl;
             filesystem::remove(file_path);
             // создание жесткой ссылки 
             filesystem::create_hard_link(original, file_path); 
