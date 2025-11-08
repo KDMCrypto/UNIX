@@ -11,6 +11,7 @@ string sha1(const string& filepath) {
     ifstream fin(filepath, ios_base::binary);
     if (!fin.is_open()){
         cout << "Не удалось окрыть файл" << endl;
+        return "";
     }
     // Выделяем и возвращаем объект, который хранит все промежуточные состояния хэш-функции во время вычисления хэша.
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
